@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Boulevard-Projectr</title>
+  <title>Boulevard-Project</title>
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-DXNB3EZL75"></script>
   <script>
-    console.log("✅ Google Analytics script is running...");  
+    console.log("✅ Google Analytics script is running...");
 
     window.dataLayer = window.dataLayer || [];
     function gtag(){ dataLayer.push(arguments); }
@@ -16,25 +16,28 @@
     gtag('js', new Date());
     gtag('config', 'G-DXNB3EZL75', { 'debug_mode': true });
 
-    // Get the current date and time
-    const currentDate = new Date();
-    const formattedDate = currentDate.toISOString();  // ISO format
-
-    // Get the page title and path
-    const pageTitle = document.title;  // Will fetch the title of the current page
-    const pagePath = window.location.pathname;  // Will fetch the path of the current page (e.g., /somepage)
-
-    // Track Page View with additional details
-    gtag('event', 'page_view', {
-      'page_path': pagePath,
-      'page_title': pageTitle,  // Explicitly sending page title
-      'view_date': formattedDate
-    });
-
-    // Check if Google Analytics is initialized
+    // Ensure gtag is loaded before firing events
     setTimeout(() => {
-      console.log("🔍 Checking dataLayer:", window.dataLayer);
-    }, 2000);
+      if (typeof gtag !== "function") {
+        console.error("❌ gtag is NOT defined! Check your GA script.");
+      } else {
+        console.log("✅ gtag is loaded correctly.");
+
+        // Track Page View Event
+        gtag('event', 'page_view', {
+          'page_path': window.location.pathname,
+          'page_title': document.title,
+          'view_date': new Date().toISOString()
+        });
+
+        console.log("📌 Page View event sent.");
+      }
+    }, 3000);
+
+    // Check dataLayer contents
+    setTimeout(() => {
+      console.log("🔎 Final Data Layer Status:", JSON.stringify(window.dataLayer, null, 2));
+    }, 5000);
   </script>
   <!-- End Google Analytics -->
 
@@ -61,7 +64,7 @@
   <iframe title="بروتوتيب البوليفارد(داخلي)" 
   src="https://app.powerbi.com/view?r=eyJrIjoiNGFiZDQ4ZGItNjBkYy00ZjJjLTk2OTMtYjJkZDg5MGQ3NTVjIiwidCI6ImM3YmNkYzYzLTI4M2MtNDk5OC05NTk0LTQ1NTM5MzNlNGQ1YiIsImMiOjl9" 
   allowFullScreen="true">
-  
   </iframe>
+
 </body>
 </html>
